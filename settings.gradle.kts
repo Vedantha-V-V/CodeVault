@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ReadHive"
+rootProject.name = "CodeVault"
 include(":app")
