@@ -27,7 +27,7 @@ class PasscodeViewModel(private val dao: PasscodeDao): ViewModel() {
         when(sortType) {
             SortType.TITLE -> dao.getPasscodeOrderedByTitle()
             SortType.CATEGORY -> dao.getPasscodeOrderedByCategory()
-            SortType.CREATED_AT -> dao.getPasscodeOrderedByDate()
+            SortType.DATE -> dao.getPasscodeOrderedByDate()
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     private val _state = MutableStateFlow(PasscodeState())
