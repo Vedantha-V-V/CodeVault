@@ -10,15 +10,14 @@
 
 ## Components & Layout
 
-- [ ]  Passcode list with categories/tags filters
-- [ ]  Passcode detail screen with syntax-highlighted code display
-- [ ]  Add/Edit passcode form with title, category, passcode
+- [x]  Passcode list with categories/tags filters
+- [x]  Passcode detail screen with visibility based password display
+- [x]  Add/Edit passcode form with title, category, passcode
 
 ## Functionalities
 
-- [ ]  Store passwords locally with title, category, and password.
-- [ ]  Support categorized tagging for sorting.
-- [ ]  Edit, delete, and copy passcodes.
-- [ ]  Implement syntax highlighting using code editor library or custom styling.
+- [x]  Store passwords locally with title, category, and password.
+- [x]  Support categorized tagging for sorting.
+- [x]  Edit, delete, and copy passcodes.
 
 

@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,22 +32,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vedanthavv.codevault.R
 import com.vedanthavv.codevault.data.entity.SortType
 import com.vedanthavv.codevault.domain.event.PasscodeEvent
 import com.vedanthavv.codevault.domain.state.PasscodeState
 import com.vedanthavv.codevault.ui.components.AddDialog
-import com.vedanthavv.codevault.ui.theme.DarkBlue
-import com.vedanthavv.codevault.ui.theme.DarkPurple
-import com.vedanthavv.codevault.ui.theme.LightBlue
-import com.vedanthavv.codevault.ui.theme.LightCobalt
-import com.vedanthavv.codevault.ui.theme.Pink40
-import com.vedanthavv.codevault.ui.theme.PurpleGrey40
+import com.vedanthavv.codevault.ui.theme.BgColor
+import com.vedanthavv.codevault.ui.theme.CardColor
+import com.vedanthavv.codevault.ui.theme.HeaderColor
+import com.vedanthavv.codevault.ui.theme.IconColor
+import com.vedanthavv.codevault.ui.theme.TextColor
 
 @Composable
 fun MainScreen(
@@ -67,7 +66,7 @@ fun MainScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(DarkBlue),
+                .background(BgColor),
             contentPadding = padding,
             verticalArrangement = Arrangement.spacedBy(12.dp),
 
@@ -83,7 +82,7 @@ fun MainScreen(
                         text = "CodeVault",
                         fontSize = 36.sp,
                         fontWeight = FontWeight.Bold,
-                        color = LightCobalt
+                        color = HeaderColor
                     )
                 }
                 Row(
@@ -101,7 +100,7 @@ fun MainScreen(
                                 onClick = {
                                     onEvent(PasscodeEvent.SortPasscode(sortType))
                                 })
-                            Text(text = sortType.name, color = LightCobalt)
+                            Text(text = sortType.name, color = TextColor)
                         }
                     }
                 }
@@ -116,7 +115,7 @@ fun MainScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 12.dp),
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = PurpleGrey40),
+                    colors = CardDefaults.cardColors(containerColor = CardColor),
                     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                 ) {
                     Column(modifier = Modifier
@@ -126,7 +125,7 @@ fun MainScreen(
                         Text(
                             text = passcode.title,
                             fontSize = 18.sp,
-                            color = LightCobalt,
+                            color = TextColor,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -136,28 +135,32 @@ fun MainScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 8.dp)
-                                .background(color = Pink40, shape = RoundedCornerShape(8.dp))
+                                .background(color = HeaderColor, shape = RoundedCornerShape(8.dp))
                                 .padding(horizontal = 12.dp, vertical = 10.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ){
                             Text(
-                                text = if (visible) passcode.password else "•".repeat(8),
+                                text = if (visible) passcode.password else "*".repeat(8),
                                 fontFamily = FontFamily.Monospace,
-                                color = LightCobalt,
+                                color = IconColor,
                                 modifier = Modifier.weight(1f)
                             )
 
+                            IconButton(onClick = { visible = !visible }){
+                                Icon(painterResource(id = R.drawable.content_copy), contentDescription = "Copy password", tint = IconColor)
+                            }
+
                             // Show Button
                             IconButton(onClick = { visible = !visible }) {
-                                if(visible){
-                                    Icon(imageVector = Icons.Default.Add,contentDescription = "Show",tint = LightCobalt)
+                                if(!visible){
+                                    Icon(painterResource(id = R.drawable.view_eye),contentDescription = "Show",tint = IconColor)
                                 }else{
-                                    Icon(imageVector = Icons.Default.Close,contentDescription = "Hide", tint = LightCobalt)
+                                    Icon(imageVector = Icons.Default.Close,contentDescription = "Hide", tint = IconColor)
                                 }
                             }
                             // Delete Button
                             IconButton(onClick = { onEvent(PasscodeEvent.DeletePasscode(passcode)) }) {
-                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete passcode", tint = LightCobalt)
+                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete passcode", tint = IconColor)
                             }
 
                         }
