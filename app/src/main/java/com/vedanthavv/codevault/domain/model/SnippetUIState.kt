@@ -1,12 +1,10 @@
 package com.vedanthavv.codevault.domain.model
 
-import java.util.Collections
+import com.vedanthavv.codevault.data.local.entity.Snippet
 
-data class SnippetUIState(
-    val id: Long = 0,
-    val title: String = "",
-    val code: String = "",
-    val language: String = "",
-    val tags: List<String> = Collections.emptyList(),
-    val isSeeded: Boolean = false
-)
+// Sealed UI state representing loading, success with snippets and selected tags, and error.
+sealed interface SnippetUiState {
+    object Loading : SnippetUiState
+    data class Success(val snippets: List<Snippet>, val selectedTags: Set<String>) : SnippetUiState
+    data class Error(val message: String) : SnippetUiState
+}
