@@ -58,7 +58,7 @@ fun AddDialog(
                 TextField(
                     value = state.category,
                     onValueChange = { onEvent(PasscodeEvent.SetCategory(it)) },
-                    label = { Text("Category eg: Work/Personal...") },
+                    label = { Text("Category eg: Work/Personal...",color = IconColor) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                     colors = textFieldColors(focusedTextColor = IconColor, unfocusedTextColor = IconColor, focusedContainerColor = TextColor,unfocusedContainerColor = TextColor, focusedIndicatorColor = TextColor)
@@ -67,7 +67,7 @@ fun AddDialog(
                 TextField(
                     value = state.password,
                     onValueChange = { onEvent(PasscodeEvent.SetPassword(it)) },
-                    label = { Text("Password") },
+                    label = { Text("Password",color = IconColor) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                     colors = textFieldColors(focusedTextColor = IconColor, unfocusedTextColor = IconColor, focusedContainerColor = TextColor,unfocusedContainerColor = TextColor, focusedIndicatorColor = TextColor)
