@@ -1,7 +1,7 @@
 # CodeVault - Password Manager
 
-**Framework**: Jetpack Compose + Room
-**Architecture**: MVVM + Repository
+- **Framework**: Jetpack Compose + Room
+- **Architecture**: MVVM + Repository
 
 ## Dependencies
 

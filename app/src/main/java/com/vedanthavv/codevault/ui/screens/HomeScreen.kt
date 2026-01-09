@@ -1,5 +1,6 @@
 package com.vedanthavv.codevault.ui.screens
 
+import android.content.ClipData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -29,10 +30,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.Clipboard
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -48,15 +55,19 @@ import com.vedanthavv.codevault.ui.theme.CardColor
 import com.vedanthavv.codevault.ui.theme.HeaderColor
 import com.vedanthavv.codevault.ui.theme.IconColor
 import com.vedanthavv.codevault.ui.theme.TextColor
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
     state: PasscodeState,
     onEvent: (PasscodeEvent) -> Unit
 ){
+    val clipboard = LocalClipboard.current
+    val scope = rememberCoroutineScope()
+
     Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = { onEvent(PasscodeEvent.ShowDialog) }) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "Add passcode")
+        FloatingActionButton(onClick = { onEvent(PasscodeEvent.ShowDialog) },containerColor = HeaderColor) {
+            Icon(imageVector = Icons.Default.Add, contentDescription = "Add passcode",tint = IconColor)
         }
 
     }) { padding ->
@@ -107,7 +118,6 @@ fun MainScreen(
             }
 
             items(state.passcodes, key = { it.id ?: 0 }){ passcode ->
-                // remember visibility per item using its id as key
                 var visible by remember(passcode.id) { mutableStateOf(false) }
 
                 Card(
@@ -121,7 +131,7 @@ fun MainScreen(
                     Column(modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp)) {
-                        // Title - light colored to stand out on the purple background
+                        // Title
                         Text(
                             text = passcode.title,
                             fontSize = 18.sp,
@@ -130,7 +140,7 @@ fun MainScreen(
                             overflow = TextOverflow.Ellipsis
                         )
 
-                        // Password displayed in a "code block" style using monospace and contrasting background
+                        // Password
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -146,7 +156,14 @@ fun MainScreen(
                                 modifier = Modifier.weight(1f)
                             )
 
-                            IconButton(onClick = { visible = !visible }){
+                            // Copy password Button
+                            IconButton(onClick = {
+                                val clipData = ClipData.newPlainText("plain text", passcode.password)
+                                val clipEntry = ClipEntry(clipData)
+                                scope.launch{
+                                    clipboard.setClipEntry(clipEntry)
+                                }
+                            }){
                                 Icon(painterResource(id = R.drawable.content_copy), contentDescription = "Copy password", tint = IconColor)
                             }
 
@@ -166,7 +183,6 @@ fun MainScreen(
                         }
                     }
                 }
-
             }
         }
     }
