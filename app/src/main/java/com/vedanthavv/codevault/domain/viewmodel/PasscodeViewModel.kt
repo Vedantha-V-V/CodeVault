@@ -9,6 +9,7 @@ import com.vedanthavv.codevault.data.entity.Passcode
 import com.vedanthavv.codevault.data.entity.SortType
 import com.vedanthavv.codevault.domain.event.PasscodeEvent
 import com.vedanthavv.codevault.domain.state.PasscodeState
+import com.vedanthavv.codevault.util.EncryptionManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -58,10 +59,12 @@ class PasscodeViewModel(private val dao: PasscodeDao): ViewModel() {
                     return
                 }
 
+                val encrypted = EncryptionManager.encrypt(password)
+
                 val passcode = Passcode(
                     title = title,
                     category = category,
-                    password = password,
+                    password = encrypted,
                     createdAt = Date.from(Instant.now())
                 )
                 viewModelScope.launch{

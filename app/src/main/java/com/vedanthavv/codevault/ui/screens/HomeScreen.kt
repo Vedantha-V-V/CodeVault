@@ -52,6 +52,7 @@ import com.vedanthavv.codevault.ui.theme.CardColor
 import com.vedanthavv.codevault.ui.theme.HeaderColor
 import com.vedanthavv.codevault.ui.theme.IconColor
 import com.vedanthavv.codevault.ui.theme.TextColor
+import com.vedanthavv.codevault.util.EncryptionManager
 import kotlinx.coroutines.launch
 
 @Composable
@@ -146,8 +147,10 @@ fun MainScreen(
                                 .padding(horizontal = 12.dp, vertical = 10.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ){
+                            val decrypted = EncryptionManager.decrypt(passcode.password)
+
                             Text(
-                                text = if (visible) passcode.password else "*".repeat(8),
+                                text = if (visible) decrypted else "*".repeat(8),
                                 fontFamily = FontFamily.Monospace,
                                 color = IconColor,
                                 modifier = Modifier.weight(1f)
@@ -155,7 +158,7 @@ fun MainScreen(
 
                             // Copy password Button
                             IconButton(onClick = {
-                                val clipData = ClipData.newPlainText("plain text", passcode.password)
+                                val clipData = ClipData.newPlainText("plain text", decrypted)
                                 val clipEntry = ClipEntry(clipData)
                                 scope.launch{
                                     clipboard.setClipEntry(clipEntry)

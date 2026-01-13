@@ -2,14 +2,14 @@ package com.vedanthavv.codevault.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
+import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Upsert
 import com.vedanthavv.codevault.data.entity.Passcode
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PasscodeDao {
-    @Upsert
+    @Insert
     suspend fun addPasscode(passcode: Passcode)
     @Delete
     suspend fun deletePasscode(passcode: Passcode)

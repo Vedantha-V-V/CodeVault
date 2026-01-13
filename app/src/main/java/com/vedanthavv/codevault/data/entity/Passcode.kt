@@ -12,5 +12,5 @@ data class Passcode (
     val createdAt: Date,
     val showPasscode: Boolean = false,
     @PrimaryKey(autoGenerate = true)
-    val id:Int? = 0,
+    val id: Int? = null
 )
